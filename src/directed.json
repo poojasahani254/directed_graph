@@ -1,0 +1,236 @@
+ {
+    "start": {
+      "step": {
+        "name": "未確認",
+        "description": "新たな検査結果",
+        "scope": "given group [doctor]",
+        "paths": [
+          {
+            "label": "検査結果と所見を伝え、オンライン診療受診を促す",
+            "step": "followup",
+            "behavior": "followup",
+            "icon": "check-circle",
+            "tableData": {
+              "id": 0
+            }
+          },
+          {
+            "label": "検査結果と所見を伝える",
+            "step": "feedback",
+            "icon": "check-circle",
+            "behavior": "feedback",
+            "tableData": {
+              "id": 1
+            }
+          },
+          {
+            "label": "チャット上でメッセージを送る",
+            "step": "start",
+            "behavior": "chat",
+            "icon": "comments",
+            "tableData": {
+              "id": 2
+            }
+          },
+          {
+            "label": "内部用メモを残す",
+            "step": "start",
+            "behavior": "note",
+            "icon": "sticky-note",
+            "tableData": {
+              "id": 3
+            }
+          }
+        ],
+        "status": "active",
+        "template": "{DisplayName} [{Data.test}]",
+        "nameStyle": "danger",
+        "behaviors": [
+          {
+            "handle": "followup",
+            "behavior": "dispatch",
+            "target": "$source",
+            "fields": "followup",
+            "data": {},
+            "tableData": {
+              "id": 0
+            }
+          },
+          {
+            "handle": "note",
+            "behavior": "dispatch",
+            "target": "$source",
+            "fields": "memo",
+            "tableData": {
+              "id": 1
+            }
+          },
+          {
+            "handle": "feedback",
+            "behavior": "dispatch",
+            "target": "$source",
+            "fields": "feedback",
+            "data": {},
+            "tableData": {
+              "id": 2
+            }
+          },
+          {
+            "handle": "chat",
+            "behavior": "managedChat",
+            "target": "$source",
+            "fields": "3d85a0e6-e4d0-4b60-9b03-9595cf0d0682",
+            "tableData": {
+              "id": 3
+            }
+          }
+        ]
+      },
+      "actions": [
+        {
+          "action": "notify",
+          "scope": "$all",
+          "args": "新たな検査結果",
+          "tableData": {
+            "id": 0
+          }
+        }
+      ]
+    },
+    "followup": {
+      "step": {
+        "name": "予約待ち",
+        "description": "検査結果と所見を伝え、オンライン診療受診を促す",
+        "scope": "$all",
+        "status": "active",
+        "nameStyle": "info",
+        "paths": [
+          {
+            "label": "チャット上でメッセージを送る",
+            "step": "followup",
+            "behavior": "chat",
+            "icon": "comments",
+            "tableData": {
+              "id": 0
+            }
+          },
+          {
+            "label": "内部用メモを残す",
+            "step": "followup",
+            "behavior": "note",
+            "icon": "sticky-note",
+            "tableData": {
+              "id": 1
+            }
+          }
+        ],
+        "behaviors": [
+          {
+            "handle": "chat",
+            "behavior": "managedChat",
+            "target": "$source",
+            "fields": "3d85a0e6-e4d0-4b60-9b03-9595cf0d0682",
+            "tableData": {
+              "id": 0
+            }
+          },
+          {
+            "handle": "close",
+            "behavior": "ux",
+            "fields": "close",
+            "tableData": {
+              "id": 1
+            }
+          },
+          {
+            "handle": "note",
+            "behavior": "dispatch",
+            "target": "$source",
+            "fields": "memo",
+            "tableData": {
+              "id": 2
+            }
+          }
+        ]
+      },
+      "actions": []
+    },
+    "scheduled": {
+      "step": {
+        "description": "オンライン診療予約済",
+        "name": "予約完了",
+        "scope": "$all",
+        "paths": [
+          {
+            "label": "チャット上でメッセージを送る",
+            "step": "followup",
+            "behavior": "chat",
+            "icon": "comments",
+            "tableData": {
+              "id": 0
+            }
+          },
+          {
+            "label": "内部用メモを残す",
+            "step": "followup",
+            "behavior": "note",
+            "icon": "sticky-note",
+            "tableData": {
+              "id": 1
+            }
+          }
+        ],
+        "behaviors": [
+          {
+            "handle": "chat",
+            "behavior": "managedChat",
+            "target": "$source",
+            "fields": "3d85a0e6-e4d0-4b60-9b03-9595cf0d0682",
+            "tableData": {
+              "id": 0
+            }
+          },
+          {
+            "handle": "close",
+            "behavior": "ux",
+            "fields": "close",
+            "tableData": {
+              "id": 1
+            }
+          },
+          {
+            "handle": "note",
+            "behavior": "dispatch",
+            "target": "$source",
+            "fields": "memo",
+            "tableData": {
+              "id": 2
+            }
+          }
+        ],
+        "status": "active",
+        "nameStyle": "success"
+      }
+    },
+    "feedback": {
+      "step": {
+        "name": "所見送付",
+        "description": " 所見送付済",
+        "scope": "$all",
+        "status": "active",
+        "nameStyle": "success",
+        "paths": [],
+        "behaviors": []
+      },
+      "actions": []
+    },
+    "closed": {
+      "step": {
+        "description": "Test completed",
+        "name": "対応済",
+        "nameStyle": "info",
+        "scope": "$all",
+        "status": "retired"
+      }
+    }
+  }
